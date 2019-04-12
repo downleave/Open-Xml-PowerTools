@@ -313,6 +313,10 @@ namespace OpenXmlPowerTools
                     foreach (var st in firstOne.Styles.Where(s => s.Key != "PtStyleName"))
                     {
                         var s = "    " + st.Key + ": " + st.Value + ";" + Environment.NewLine;
+                        if (st.Key == "font-family")
+                        {
+                            s = "    " + st.Key + ": \"" + st.Value + "\";" + Environment.NewLine;
+                        }
                         sb.Append(s);
                     }
                     sb.Append("}" + Environment.NewLine);

@@ -1786,6 +1786,7 @@ namespace OpenXmlPowerTools.HtmlToWml.CSS
         {
             MemoryStream mem = new MemoryStream();
             byte[] bytes = ASCIIEncoding.ASCII.GetBytes(content);
+            //byte[] bytes = UTF8Encoding.UTF8.GetBytes(content);
             mem.Write(bytes, 0, bytes.Length);
             try
             {
