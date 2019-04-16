@@ -26,17 +26,20 @@ class WmlToHtmlConverterHelper
 {
     static void Main(string[] args)
     {
-        var n = DateTime.Now;
-        var tempDi = new DirectoryInfo(string.Format("ExampleOutput-{0:00}-{1:00}-{2:00}-{3:00}{4:00}{5:00}", n.Year - 2000, n.Month, n.Day, n.Hour, n.Minute, n.Second));
-        tempDi.Create();
+        var oldfile = args[0];
+        var dirname = Path.GetDirectoryName(oldfile);
+        var filename = Path.GetFileName(oldfile);
+        //var n = DateTime.Now;
+        //var tempDi = new DirectoryInfo(string.Format("ExampleOutput-{0:00}-{1:00}-{2:00}-{3:00}{4:00}{5:00}", n.Year - 2000, n.Month, n.Day, n.Hour, n.Minute, n.Second));
+        //tempDi.Create();
 
         /*
          * This example loads each document into a byte array, then into a memory stream, so that the document can be opened for writing without
          * modifying the source document.
          */
-        foreach (var file in Directory.GetFiles("../../", "*.docx"))
+        foreach (var file in Directory.GetFiles(dirname, filename))
         {
-            ConvertToHtml(file, tempDi.FullName);
+            ConvertToHtml(file, dirname);
         }
     }
 

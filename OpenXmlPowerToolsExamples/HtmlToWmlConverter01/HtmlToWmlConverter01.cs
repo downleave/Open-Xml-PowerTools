@@ -36,13 +36,16 @@ class HtmlToWmlConverterExample
 {
     static void Main(string[] args)
     {
-        var n = DateTime.Now;
-        var tempDi = new DirectoryInfo(string.Format("ExampleOutput-{0:00}-{1:00}-{2:00}-{3:00}{4:00}{5:00}", n.Year - 2000, n.Month, n.Day, n.Hour, n.Minute, n.Second));
-        tempDi.Create();
+        //var n = DateTime.Now;
+        //var tempDi = new DirectoryInfo(string.Format("ExampleOutput-{0:00}-{1:00}-{2:00}-{3:00}{4:00}{5:00}", n.Year - 2000, n.Month, n.Day, n.Hour, n.Minute, n.Second));
+        //tempDi.Create();
+        var oldfile = args[0];
+        var dirname = Path.GetDirectoryName(oldfile);
+        var filename = Path.GetFileName(oldfile);
 
-        foreach (var file in Directory.GetFiles("../../", "*.html") /* .Where(f => f.Contains("Test-01")) */ )
+        foreach (var file in Directory.GetFiles(dirname, filename) /* .Where(f => f.Contains("Test-01")) */ )
         {
-            ConvertToDocx(file, tempDi.FullName);
+            ConvertToDocx(file, dirname);
         }
     }
 

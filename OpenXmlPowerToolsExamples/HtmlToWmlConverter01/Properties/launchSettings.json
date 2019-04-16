@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "HtmlToWmlConverter01": {
+      "commandName": "Project",
+      "commandLineArgs": "D:\\testcsharp\\testfile\\测试表格.html"
+    }
+  }
+}
