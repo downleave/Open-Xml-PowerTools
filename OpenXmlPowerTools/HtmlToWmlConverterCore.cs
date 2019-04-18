@@ -99,16 +99,12 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using DocumentFormat.OpenXml.Packaging;
-using OpenXmlPowerTools;
-using OpenXmlPowerTools.HtmlToWml;
 using OpenXmlPowerTools.HtmlToWml.CSS;
-using System.Text.RegularExpressions;
 
 namespace OpenXmlPowerTools.HtmlToWml
 {
@@ -123,6 +119,10 @@ namespace OpenXmlPowerTools.HtmlToWml
         public static CssExpression GetProp(this XElement element, string propertyName)
         {
             Dictionary<string, CssExpression> d = element.Annotation<Dictionary<string, CssExpression>>();
+            //if (element.Name == XhtmlNoNamespace.td)
+            //{
+            //    var log = d;
+            //}
             if (d != null)
             {
                 if (d.ContainsKey(propertyName))
@@ -1038,7 +1038,7 @@ namespace OpenXmlPowerTools.HtmlToWml
                                     return new XElement(W.p, e);
                                 return e;
                             }));
-
+                        var log = GetCellProperties(element);
                         return new XElement(W.tc,
                             GetCellProperties(element),
                             newElements.Elements());
@@ -3220,6 +3220,7 @@ namespace OpenXmlPowerTools.HtmlToWml
                 new XElement(W.left, GetBorderAttributes(element, "left")),
                 new XElement(W.bottom, GetBorderAttributes(element, "bottom")),
                 new XElement(W.right, GetBorderAttributes(element, "right")));
+            //var log = borders.Elements();
             if (borders.Elements().Attributes(W.val).Where(v => (string)v == "none").Count() == 4)
                 return null;
             return borders;
@@ -3247,6 +3248,12 @@ namespace OpenXmlPowerTools.HtmlToWml
             CssExpression colorProp = element.GetProp(string.Format("border-{0}-color", whichBorder));
             CssExpression paddingProp = element.GetProp(string.Format("padding-{0}", whichBorder));
             CssExpression marginProp = element.GetProp(string.Format("margin-{0}", whichBorder));
+            //if (element.Name == XhtmlNoNamespace.td) {
+            //    var log2 = element;
+            //    var log = styleProp;
+            //    CssExpression styleProp2 = element.GetProp(string.Format("border-top", whichBorder));
+            //    log = styleProp2;
+            //}
 
             // The space attribute is equivalent to the margin properties of CSS
             // the ind element of the parent is more or less equivalent to the padding properties of CSS, except that ind takes space
@@ -3264,8 +3271,19 @@ namespace OpenXmlPowerTools.HtmlToWml
             {
                 if (BorderStyleMap.ContainsKey(styleProp.ToString()))
                     val = new XAttribute(W.val, BorderStyleMap[styleProp.ToString()]);
+                    if (element.Name == XhtmlNoNamespace.table || element.Name == XhtmlNoNamespace.td || element.Name == XhtmlNoNamespace.th) {
+                        CssExpression widthProp = element.GetProp(string.Format("border-{0}-width", whichBorder));
+                        //widthProp = widthProp.ToString();
+                        TPoint BorderWidthpoints = (TPoint)widthProp;
+                        if ((double)BorderWidthpoints > 0)
+                        {
+                            //不知为何border-xxx-style获取不到对应的css，这里有width的时候，默认先给single
+                            val = new XAttribute(W.val, "single");
+                        }
+                }
                 else
                     val = new XAttribute(W.val, "none");
+                    //val = new XAttribute(W.val, "single");
             }
 
             double borderSizeInTwips = GetBorderSize(element, whichBorder);
@@ -4678,6 +4696,7 @@ namespace OpenXmlPowerTools.HtmlToWml
                                 color != null ? new XElement(W.color, new XAttribute(W.val, "this should be a color")) : null,
                                 new XElement(W.sz, new XAttribute(W.val, "24")),
                                 new XElement(W.szCs, new XAttribute(W.val, "24"))));
+
                         if (styleXDoc
                             .Root
                             .Elements(W.style)
