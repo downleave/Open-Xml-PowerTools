@@ -2,7 +2,7 @@
   "profiles": {
     "HtmlToWmlConverter01": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\testcsharp\\testfile\\testtable.html"
+      "commandLineArgs": "D:\\testcsharp\\testfile\\123.html"
     }
   }
 }

@@ -2613,12 +2613,13 @@ namespace OpenXmlPowerTools.HtmlToWml
 
         private static CssDataType GetDatatypeFromBorderTerm(CssTerm term)
         {
+            //把bordetstyle的判断提前一点，避免有颜色的时候提前判断了颜色
+            if (BorderStyleValues.Contains(term.Value.ToLower()))
+                return CssDataType.BorderStyle;
             if (term.IsColor)
             {
                 return CssDataType.Color;
             }
-            if (BorderStyleValues.Contains(term.Value.ToLower()))
-                return CssDataType.BorderStyle;
             return CssDataType.BorderWidth;
         }
 

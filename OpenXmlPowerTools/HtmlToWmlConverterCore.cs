@@ -3248,12 +3248,6 @@ namespace OpenXmlPowerTools.HtmlToWml
             CssExpression colorProp = element.GetProp(string.Format("border-{0}-color", whichBorder));
             CssExpression paddingProp = element.GetProp(string.Format("padding-{0}", whichBorder));
             CssExpression marginProp = element.GetProp(string.Format("margin-{0}", whichBorder));
-            //if (element.Name == XhtmlNoNamespace.td) {
-            //    var log2 = element;
-            //    var log = styleProp;
-            //    CssExpression styleProp2 = element.GetProp(string.Format("border-top", whichBorder));
-            //    log = styleProp2;
-            //}
 
             // The space attribute is equivalent to the margin properties of CSS
             // the ind element of the parent is more or less equivalent to the padding properties of CSS, except that ind takes space
@@ -3271,7 +3265,7 @@ namespace OpenXmlPowerTools.HtmlToWml
             {
                 if (BorderStyleMap.ContainsKey(styleProp.ToString()))
                     val = new XAttribute(W.val, BorderStyleMap[styleProp.ToString()]);
-                if (element.Name == XhtmlNoNamespace.table || element.Name == XhtmlNoNamespace.td || element.Name == XhtmlNoNamespace.th)
+                /*if (element.Name == XhtmlNoNamespace.table || element.Name == XhtmlNoNamespace.td || element.Name == XhtmlNoNamespace.th)
                 {
                     CssExpression widthProp = element.GetProp(string.Format("border-{0}-width", whichBorder));
                     //widthProp = widthProp.ToString();
@@ -3281,7 +3275,7 @@ namespace OpenXmlPowerTools.HtmlToWml
                         //不知为何border-xxx-style获取不到对应的css，这里有width的时候，默认先给single
                         val = new XAttribute(W.val, "single");
                     }
-                }
+                }*/
                 else
                     val = new XAttribute(W.val, "none");
                 //val = new XAttribute(W.val, "single");
