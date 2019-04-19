@@ -12,6 +12,7 @@ using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Validation;
 using OpenXmlPowerTools;
 using OpenXmlPowerTools.HtmlToWml;
+using HtmlAgilityPack;
 
 /*******************************************************************************************
  * HtmlToWmlConverter expects the HTML to be passed as an XElement, i.e. as XML.  While the HTML test files that
@@ -109,7 +110,24 @@ class HtmlToWmlConverterExample
 #else
             catch (XmlException e)
             {
-                throw e;
+                //throw e;
+                HtmlDocument hdoc = new HtmlDocument();
+                hdoc.Load(sourceHtmlFi.FullName, Encoding.Default);
+                hdoc.OptionOutputAsXml = true;
+                hdoc.Save(sourceHtmlFi.FullName, Encoding.Default);
+                StringBuilder sb = new StringBuilder(File.ReadAllText(sourceHtmlFi.FullName, Encoding.Default));
+                sb.Replace("&amp;", "&");
+                sb.Replace("&nbsp;", "\xA0");
+                sb.Replace("&quot;", "\"");
+                sb.Replace("&lt;", "~lt;");
+                sb.Replace("&gt;", "~gt;");
+                sb.Replace("&#", "~#");
+                sb.Replace("&", "&amp;");
+                sb.Replace("~lt;", "&lt;");
+                sb.Replace("~gt;", "&gt;");
+                sb.Replace("~#", "&#");
+                File.WriteAllText(sourceHtmlFi.FullName, sb.ToString(), Encoding.Default);
+                html = XElement.Parse(sb.ToString());
             }
 #endif
             // HtmlToWmlConverter expects the HTML elements to be in no namespace, so convert all elements to no namespace.
