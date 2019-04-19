@@ -882,7 +882,7 @@ namespace OpenXmlPowerTools.HtmlToWml
                         double? leftMargin = (double?)settings.SectPr.Elements(W.pgMar).Attributes(W.left).FirstOrDefault();
                         if (leftMargin == null)
                             leftMargin = 1440;
-                        double? rightMargin = (double?)settings.SectPr.Elements(W.pgMar).Attributes(W.left).FirstOrDefault();
+                        double? rightMargin = (double?)settings.SectPr.Elements(W.pgMar).Attributes(W.right).FirstOrDefault();
                         if (rightMargin == null)
                             rightMargin = 1440;
                         double width = (double)(pageWidth - leftMargin - rightMargin) / 20;
