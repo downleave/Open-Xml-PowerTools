@@ -351,7 +351,21 @@ AAAAAAAAAAAAAAAANi8AAGRvY1Byb3BzL2FwcC54bWxQSwUGAAAAAAwADAAJAwAA3DEAAAAA";
                         new XAttribute(W.lineRule, "auto"));
 
                     XDocument mXDoc = wDoc.MainDocumentPart.GetXDocument();
-                    XElement existingSectPr = mXDoc.Root.Descendants(W.sectPr).FirstOrDefault();
+                    //XElement existingSectPr = mXDoc.Root.Descendants(W.sectPr).FirstOrDefault();
+                    //写死页边距为1800
+                    XElement existingSectPr = new XElement(W.sectPr,
+                        new XAttribute(XNamespace.Xmlns + "w", W.w),
+                        new XElement(W.pgSz,
+                            new XAttribute(W._w, 12240),
+                            new XAttribute(W.h, 15840)),
+                        new XElement(W.pgMar,
+                            new XAttribute(W.top, 1440),
+                            new XAttribute(W.right, 1800),
+                            new XAttribute(W.bottom, 1440),
+                            new XAttribute(W.left, 1800),
+                            new XAttribute(W.header, 720),
+                            new XAttribute(W.footer, 720),
+                            new XAttribute(W.gutter, 0)));
                     settings.SectPr = new XElement(W.sectPr,
                         existingSectPr.Elements(W.pgSz),
                         existingSectPr.Elements(W.pgMar));

@@ -2,7 +2,7 @@
   "profiles": {
     "HtmlToWmlConverter01": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\testcsharp\\testfile\\分页符.html"
+      "commandLineArgs": "D:\\testcsharp\\testfile\\123.html"
     }
   }
 }
